@@ -55,4 +55,16 @@ final class RouteCollection implements \IteratorAggregate, \Countable
     {
         return $this->routes[$name] ?? null;
     }
+
+    /**
+     * @param self $collection
+     * @return void
+     */
+    public function mergeCollection(self $collection): void
+    {
+        foreach ($collection->all() as $name => $route) {
+            unset($this->routes[$name]);
+            $this->routes[$name] = $route;
+        }
+    }
 }

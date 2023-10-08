@@ -67,4 +67,36 @@ class RouteCollectionTest extends TestCase
             'bar' => $bar
         ], $collection->getIterator()->getArrayCopy());
     }
+
+    /**
+     * @covers \Nulldark\Routing\RouteCollection::mergeCollection
+     * @return void
+     */
+    public function testMergeCollection(): void
+    {
+        $collection1 = new RouteCollection();
+        $collection1->add('foo_1', $foo_1 = new Route('/foo_1'));
+
+        $collection2 = new RouteCollection();
+        $collection2->add('foo_2', $foo_2 = new Route('/foo_2'));
+        $collection2->mergeCollection($collection1);
+
+        $this->assertEquals($foo_1, $collection2->get('foo_1'));
+        $this->assertEquals($foo_2, $collection2->get('foo_2'));
+        $this->assertCount(2, $collection2);
+    }
+
+    public function testOverriddenMergeCollection(): void
+    {
+        $collection1 = new RouteCollection();
+        $collection1->add('foo_1', new Route('/foo_1'));
+
+        $collection2 = new RouteCollection();
+        $collection2->add('foo_1', $foo_2 = new Route('/foo_2'));
+        $collection1->mergeCollection($collection2);
+
+        $this->assertCount(1, $collection1);
+        $this->assertEquals($foo_2, $collection1->get('foo_1'));
+        $this->assertEquals('/foo_2', $collection1->get('foo_1')->getPath());
+    }
 }
