@@ -27,6 +27,7 @@
         "laminas/laminas-diactoros": "^3.2"
     },
     "scripts": {
-        "phpcs": "phpcs"
+        "phpcs": "phpcs",
+        "phpstan": "phpstan --memory-limit=-1"
     }
 }
