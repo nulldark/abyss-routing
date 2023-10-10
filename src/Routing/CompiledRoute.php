@@ -31,8 +31,11 @@ namespace Nulldark\Routing;
 final class CompiledRoute
 {
     public function __construct(
+        /** @var string $regex */
         private string $regex,
+        /** @var array<int<0, max>, int|string> $variables */
         private array $variables,
+        /** @var array<int<0, max>, array<int, string>> $tokens */
         private array $tokens
     ) {
     }
@@ -50,7 +53,7 @@ final class CompiledRoute
     /**
      * Gets all variables of defined route.
      *
-     * @return array
+     * @return array<int<0, max>, int|string>
      */
     public function getVariables(): array
     {
@@ -60,7 +63,7 @@ final class CompiledRoute
     /**
      * Gets all route tokens.
      *
-     * @return array
+     * @return array<int<0, max>, array<int, string>>
      */
     public function getTokens(): array
     {

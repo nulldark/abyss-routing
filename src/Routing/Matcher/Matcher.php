@@ -40,8 +40,8 @@ class Matcher implements MatcherInterface
     /** @var string[] $allow */
     private array $allow;
 
-    /** @var ServerRequestInterface|null $request */
-    private ?ServerRequestInterface $request = null;
+    /** @var ServerRequestInterface $request */
+    private ServerRequestInterface $request;
 
     public function __construct(
         protected RouteCollection $routes
@@ -55,11 +55,7 @@ class Matcher implements MatcherInterface
     {
         $this->request = $request;
 
-        $ret = $this->match($request->getUri()->getPath());
-
-        $this->request = null;
-
-        return $ret;
+        return $this->match($request->getUri()->getPath());
     }
 
     /**

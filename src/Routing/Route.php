@@ -34,11 +34,15 @@ class Route
     private string $path;
     /** @var string[] */
     private array $methods;
-    /** @var array<string, mixed> $args */
+    /** @var array<string, int|string> $args */
     private array $args = [];
     /** @var CompiledRoute|null $compiled */
     private ?CompiledRoute $compiled;
 
+    /**
+     * @param string $path
+     * @param string[] $methods
+     */
     public function __construct(string $path, array $methods = [])
     {
         $this->setPath($path);
@@ -66,7 +70,7 @@ class Route
     }
 
     /**
-     * @param string|array $methods
+     * @param string|string[] $methods
      * @return $this
      */
     public function setMethods(string|array $methods): self
@@ -87,10 +91,10 @@ class Route
 
     /**
      * @param string $name
-     * @param mixed $value
+     * @param int|string $value
      * @return $this
      */
-    public function setArg(string $name, mixed $value): self
+    public function setArg(string $name, int|string $value): self
     {
         $this->args[$name] = $value;
 
@@ -99,15 +103,15 @@ class Route
 
     /**
      * @param string $name
-     * @return mixed
+     * @return int|string|null
      */
-    public function getArg(string $name): mixed
+    public function getArg(string $name): int|string|null
     {
         return $this->args[$name] ?? null;
     }
 
     /**
-     * @return array
+     * @return array<string, int|string>
      */
     public function getArgs(): array
     {

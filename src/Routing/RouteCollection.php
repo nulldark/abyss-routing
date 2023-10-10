@@ -40,7 +40,7 @@ final class RouteCollection implements \IteratorAggregate, \Countable
     /**
      * Get iterator.
      *
-     * @return \ArrayIterator
+     * @return \ArrayIterator<string, Route>
      */
     public function getIterator(): \ArrayIterator
     {
