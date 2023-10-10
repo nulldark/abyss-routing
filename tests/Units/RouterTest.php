@@ -33,7 +33,6 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Router::class)]
 class RouterTest extends TestCase
 {
-
     /**
      * @covers \Nulldark\Routing\Router::getMatcher
      * @return void

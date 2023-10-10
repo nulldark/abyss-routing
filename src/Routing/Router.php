@@ -40,7 +40,6 @@ class Router implements RouterInterface
     public function __construct(
         private RouteCollection $routes
     ) {
-
     }
 
     /**
@@ -77,7 +76,8 @@ class Router implements RouterInterface
      *
      * @return MatcherInterface
      */
-    public function getMatcher(): MatcherInterface {
+    public function getMatcher(): MatcherInterface
+    {
         if (null !== $this->matcher) {
             return $this->matcher;
         }
