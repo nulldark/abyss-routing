@@ -34,3 +34,5 @@ jobs:
             ${{ runner.os }}-php-${{ matrix.php-versions }}
       - name: Install dependencies
         run: composer install --prefer-source --no-interaction --dev
+      - name: Coding Standard
+        run: composer run phpcs
