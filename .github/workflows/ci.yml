@@ -38,3 +38,5 @@ jobs:
         run: composer run phpcs
       - name: Static Code Analysis
         run: composer run phpstan
+      - name: Run test suite
+        run: composer run phpunit
