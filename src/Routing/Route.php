@@ -8,6 +8,8 @@ class Route
     private string $path;
     /** @var string[] */
     private array $methods;
+    /** @var array<string, mixed> $args */
+    private array $args = [];
     /** @var CompiledRoute|null $compiled */
     private ?CompiledRoute $compiled;
 
@@ -55,6 +57,35 @@ class Route
     public function getMethods(): array
     {
         return $this->methods;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return $this
+     */
+    public function setArg(string $name, mixed $value): self
+    {
+        $this->args[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function getArg(string $name): mixed
+    {
+        return $this->args[$name] ?? null;
+    }
+
+    /**
+     * @return array
+     */
+    public function getArgs(): array
+    {
+        return $this->args;
     }
 
     public function compile(): CompiledRoute
