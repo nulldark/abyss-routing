@@ -13,4 +13,7 @@
 
     <rule ref="PSR12"/>
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+    <rule ref="Generic.Files.LineEndings">
+        <exclude name="Generic.Files.LineEndings.InvalidEOLChar"/>
+    </rule>
 </ruleset>
