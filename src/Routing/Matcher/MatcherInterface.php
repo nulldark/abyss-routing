@@ -27,6 +27,13 @@ use Nulldark\Routing\Exception\RouteNotFoundException;
 use Nulldark\Routing\Route;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @author Dominik Szamburski
+ * @package Routing
+ * @subpackage Matcher
+ * @license LGPL-2.1
+ * @version 0.1.0
+ */
 interface MatcherInterface
 {
     /**

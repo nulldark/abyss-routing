@@ -22,6 +22,12 @@
 
 namespace Nulldark\Routing;
 
+/**
+ * @author Dominik Szamburski
+ * @package Routing
+ * @license LGPL-2.1
+ * @version 0.1.0
+ */
 class Route
 {
     /** @var string $path */
@@ -108,6 +114,11 @@ class Route
         return $this->args;
     }
 
+    /**
+     * Compile a route.
+     *
+     * @return CompiledRoute
+     */
     public function compile(): CompiledRoute
     {
         if ($this->compiled === null) {

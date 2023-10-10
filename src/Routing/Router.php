@@ -26,8 +26,15 @@ use Nulldark\Routing\Matcher\Matcher;
 use Nulldark\Routing\Matcher\MatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @author Dominik Szamburski
+ * @package Routing
+ * @license LGPL-2.1
+ * @version 0.1.0
+ */
 class Router implements RouterInterface
 {
+    /** @var MatcherInterface|null $matcher */
     protected ?MatcherInterface $matcher = null;
 
     public function __construct(

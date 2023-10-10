@@ -25,6 +25,11 @@ namespace Nulldark\Routing;
 use Traversable;
 
 /**
+ * @author Dominik Szamburski
+ * @package Routing
+ * @license LGPL-2.1
+ * @version 0.1.0
+ *
  * @implements \IteratorAggregate<string, Route>
  */
 final class RouteCollection implements \IteratorAggregate, \Countable
@@ -33,6 +38,8 @@ final class RouteCollection implements \IteratorAggregate, \Countable
     private array $routes = [];
 
     /**
+     * Get iterator.
+     *
      * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
@@ -41,6 +48,8 @@ final class RouteCollection implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Gets size of set.
+     *
      * @return int
      */
     public function count(): int
@@ -49,6 +58,8 @@ final class RouteCollection implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Adds new route to the set.
+     *
      * @param string $name
      * @param Route $route
      * @return void
@@ -59,6 +70,8 @@ final class RouteCollection implements \IteratorAggregate, \Countable
     }
 
     /**
+     * Gets all routes.
+     *
      * @return Route[]
      */
     public function all(): array
@@ -68,6 +81,8 @@ final class RouteCollection implements \IteratorAggregate, \Countable
 
 
     /**
+     * Gets a specify route by name.
+     *
      * @param string $name
      * @return Route|null
      */

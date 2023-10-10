@@ -24,9 +24,15 @@ namespace Nulldark\Routing;
 
 /**
  * @internal
+ *
+ * @author Dominik Szamburski
+ * @package Routing
+ * @license LGPL-2.1
+ * @version 0.1.0
  */
 final class RouteCompiler
 {
+    /** @const */
     public const VARIABLE_MAXIMUM_LENGTH = 32;
 
     /**

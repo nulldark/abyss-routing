@@ -26,6 +26,12 @@ use Nulldark\Routing\Exception\MethodNotAllowedException;
 use Nulldark\Routing\Exception\RouteNotFoundException;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @author Dominik Szamburski
+ * @package Routing
+ * @license LGPL-2.1
+ * @version 0.1.0
+ */
 interface RouterInterface
 {
     /**

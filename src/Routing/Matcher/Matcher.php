@@ -28,11 +28,19 @@ use Nulldark\Routing\Route;
 use Nulldark\Routing\RouteCollection;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @author Dominik Szamburski
+ * @package Routing
+ * @subpackage Matcher
+ * @license LGPL-2.1
+ * @version 0.1.0
+ */
 class Matcher implements MatcherInterface
 {
     /** @var string[] $allow */
     private array $allow;
 
+    /** @var ServerRequestInterface|null $request */
     private ?ServerRequestInterface $request = null;
 
     public function __construct(
@@ -55,8 +63,11 @@ class Matcher implements MatcherInterface
     }
 
     /**
+     * Match's given path to find a route.
+     *
      * @param string $pathinfo
      * @return Route
+     *
      * @throws MethodNotAllowedException
      * @throws RouteNotFoundException
      */
@@ -80,6 +91,8 @@ class Matcher implements MatcherInterface
     }
 
     /**
+     * Match's given path to set of routes.
+     *
      * @param string $pathinfo
      * @param RouteCollection $routes
      * @return Route|null

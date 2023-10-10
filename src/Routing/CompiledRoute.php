@@ -22,6 +22,12 @@
 
 namespace Nulldark\Routing;
 
+/**
+ * @author Dominik Szamburski
+ * @package Routing
+ * @license LGPL-2.1
+ * @version 0.1.0
+ */
 final class CompiledRoute
 {
     public function __construct(
@@ -31,16 +37,31 @@ final class CompiledRoute
     ) {
     }
 
+    /**
+     * Gets a regex path.
+     *
+     * @return string
+     */
     public function getRegex(): string
     {
         return $this->regex;
     }
 
+    /**
+     * Gets all variables of defined route.
+     *
+     * @return array
+     */
     public function getVariables(): array
     {
         return $this->variables;
     }
 
+    /**
+     * Gets all route tokens.
+     *
+     * @return array
+     */
     public function getTokens(): array
     {
         return $this->tokens;
