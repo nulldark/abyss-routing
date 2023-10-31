@@ -32,6 +32,10 @@ class Route
 {
     /** @var string $path */
     private string $path;
+
+    /** @var array<string, mixed> $defaults */
+    private array $defaults;
+
     /** @var string[] */
     private array $methods;
     /** @var array<string, int|string> $args */
@@ -40,12 +44,14 @@ class Route
     private ?CompiledRoute $compiled;
 
     /**
-     * @param string $path
-     * @param string[] $methods
+     * @param string               $path
+     * @param array<string, mixed> $defaults
+     * @param string[]             $methods
      */
-    public function __construct(string $path, array $methods = [])
+    public function __construct(string $path, array $defaults = [], array $methods = [])
     {
         $this->setPath($path);
+        $this->setDefaults($defaults);
         $this->setMethods($methods);
     }
 
@@ -87,6 +93,35 @@ class Route
     public function getMethods(): array
     {
         return $this->methods;
+    }
+
+    /**
+     * Sets route defaults.
+     *
+     * @param array<string, mixed> $defaults
+     * @return $this
+     */
+    public function setDefaults(array $defaults): self
+    {
+        $this->defaults = [];
+
+        foreach ($defaults as $name => $default) {
+            $this->defaults[$name] = $default;
+        }
+
+        $this->compiled = null;
+
+        return $this;
+    }
+
+    /**
+     * Gets route defaults.
+     *
+     * @return array<string, mixed>
+     */
+    public function getDefaults(): array
+    {
+        return $this->defaults;
     }
 
     /**
