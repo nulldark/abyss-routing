@@ -38,8 +38,11 @@ class Router implements RouterInterface
     protected ?MatcherInterface $matcher = null;
 
     public function __construct(
-        private RouteCollection $routes
+        protected ?RouteCollection $routes = null
     ) {
+        if ($this->routes === null) {
+            $this->routes = new RouteCollection();
+        }
     }
 
     /**
