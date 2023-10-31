@@ -32,26 +32,37 @@ class Route
 {
     /** @var string $path */
     private string $path;
+
+    /** @var array<string, mixed> $defaults */
+    private array $defaults;
+
     /** @var string[] */
     private array $methods;
+
     /** @var array<string, int|string> $args */
     private array $args = [];
+
     /** @var CompiledRoute|null $compiled */
     private ?CompiledRoute $compiled;
 
     /**
-     * @param string $path
-     * @param string[] $methods
+     * @param string               $path
+     * @param array<string, mixed> $defaults
+     * @param string[]             $methods
      */
-    public function __construct(string $path, array $methods = [])
+    public function __construct(string $path, array $defaults = [], array $methods = [])
     {
         $this->setPath($path);
+        $this->setDefaults($defaults);
         $this->setMethods($methods);
     }
 
     /**
+     * Sets route pattern.
+     *
      * @param string $path
-     * @return $this
+     *
+     * @return       $this
      */
     public function setPath(string $path): self
     {
@@ -62,6 +73,8 @@ class Route
     }
 
     /**
+     * Gets route pattern.
+     *
      * @return string
      */
     public function getPath(): string
@@ -70,6 +83,8 @@ class Route
     }
 
     /**
+     * Sets allowed HTTP methods for route.
+     *
      * @param string|string[] $methods
      * @return $this
      */
@@ -82,11 +97,42 @@ class Route
     }
 
     /**
+     * Gets methods for route.
+     *
      * @return string[]
      */
     public function getMethods(): array
     {
         return $this->methods;
+    }
+
+    /**
+     * Sets route defaults.
+     *
+     * @param array<string, mixed> $defaults
+     * @return $this
+     */
+    public function setDefaults(array $defaults): self
+    {
+        $this->defaults = [];
+
+        foreach ($defaults as $name => $default) {
+            $this->defaults[$name] = $default;
+        }
+
+        $this->compiled = null;
+
+        return $this;
+    }
+
+    /**
+     * Gets route defaults.
+     *
+     * @return array<string, mixed>
+     */
+    public function getDefaults(): array
+    {
+        return $this->defaults;
     }
 
     /**
@@ -119,7 +165,7 @@ class Route
     }
 
     /**
-     * Compile a route.
+     * Compiles a route.
      *
      * @return CompiledRoute
      */
