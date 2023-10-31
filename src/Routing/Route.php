@@ -38,8 +38,10 @@ class Route
 
     /** @var string[] */
     private array $methods;
+
     /** @var array<string, int|string> $args */
     private array $args = [];
+
     /** @var CompiledRoute|null $compiled */
     private ?CompiledRoute $compiled;
 
@@ -56,8 +58,11 @@ class Route
     }
 
     /**
+     * Sets route pattern.
+     *
      * @param string $path
-     * @return $this
+     *
+     * @return       $this
      */
     public function setPath(string $path): self
     {
@@ -68,6 +73,8 @@ class Route
     }
 
     /**
+     * Gets route pattern.
+     *
      * @return string
      */
     public function getPath(): string
@@ -76,6 +83,8 @@ class Route
     }
 
     /**
+     * Sets allowed HTTP methods for route.
+     *
      * @param string|string[] $methods
      * @return $this
      */
@@ -88,6 +97,8 @@ class Route
     }
 
     /**
+     * Gets methods for route.
+     *
      * @return string[]
      */
     public function getMethods(): array
@@ -154,7 +165,7 @@ class Route
     }
 
     /**
-     * Compile a route.
+     * Compiles a route.
      *
      * @return CompiledRoute
      */
