@@ -22,6 +22,8 @@
 
 namespace Nulldark\Routing;
 
+use Psr\Container\ContainerInterface;
+
 /**
  * @author Dominik Szamburski
  * @package Routing
@@ -35,6 +37,8 @@ final class RouteMatch
 
     /** @var array $params */
     protected array $params;
+
+    protected ContainerInterface $container;
 
     /**
      * @param array $defaults
@@ -73,5 +77,27 @@ final class RouteMatch
         }
 
         return $this;
+    }
+
+    /**
+     * Sets DI Container.
+     *
+     * @param ContainerInterface $container
+     * @return $this
+     */
+    public function setContainer(ContainerInterface $container): self
+    {
+        $this->container = $container;
+        return $this;
+    }
+
+    /**
+     * Gets DI Container.
+     *
+     * @return ContainerInterface
+     */
+    public function getContainer(): ContainerInterface
+    {
+        return $this->container;
     }
 }
