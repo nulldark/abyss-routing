@@ -25,6 +25,7 @@ namespace Nulldark\Tests\Units;
 use Nulldark\Routing\Matcher\MatcherInterface;
 use Nulldark\Routing\Route;
 use Nulldark\Routing\RouteCollection;
+use Nulldark\Routing\RouteMatch;
 use Nulldark\Routing\Router;
 use Nulldark\Tests\Mock\ServerRequestMock;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -54,15 +55,13 @@ class RouterTest extends TestCase
      */
     public function testMatch(): void
     {
-        $route = new Route('/');
-
         $routes = new RouteCollection();
-        $routes->add('foo', $route);
+        $routes->add('foo', new Route('/'));
 
         $router = new Router($routes);
         $result = $router->match(ServerRequestMock::create());
 
-        $this->assertEquals($result, $route);
+        $this->assertInstanceOf(RouteMatch::class, $result);
     }
 
     public function testRouteCollectionsMethods(): void

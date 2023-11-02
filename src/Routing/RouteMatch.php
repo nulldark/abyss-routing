@@ -32,25 +32,26 @@ use Psr\Container\ContainerInterface;
  */
 final class RouteMatch
 {
-    /** @var array $defaults */
+    /** @var array<array-key, mixed> $defaults */
     protected array $defaults;
 
-    /** @var array $params */
+    /** @var array<array-key, int|string> $params */
     protected array $params;
 
     protected ContainerInterface $container;
 
     /**
-     * @param array $defaults
-     * @param array $params
+     * @param array<array-key, mixed> $defaults
+     * @param array<array-key, int|string> $params
      */
-    public function __construct(array $defaults = [], array $params = []) {
+    public function __construct(array $defaults = [], array $params = [])
+    {
         $this->setDefaults($defaults);
         $this->setParameters($params);
     }
 
     /**
-     * @param array $defaults
+     * @param array<array-key, mixed> $defaults
      * @return $this
      */
     public function setDefaults(array $defaults): self
@@ -63,7 +64,31 @@ final class RouteMatch
     }
 
     /**
-     * @param array $params
+     * Gets a route defaults.
+     *
+     * @return array<array-key, mixed>
+     */
+    public function getDefaults(): array
+    {
+        return $this->defaults;
+    }
+
+    /**
+     * Gets a route default.
+     *
+     * @param string $key
+     * @param mixed|null $default
+     *
+     * @return mixed|null
+     */
+    public function getDefault(string $key, mixed $default = null): mixed
+    {
+        return $this->defaults[$key] ?? $default;
+    }
+
+
+    /**
+     * @param array<array-key, int|string> $params
      * @return $this
      */
     public function setParameters(array $params): self
@@ -77,6 +102,29 @@ final class RouteMatch
         }
 
         return $this;
+    }
+
+    /**
+     * Gets a route parameters.
+     *
+     * @return array<array-key, int|string>
+     */
+    public function getParameters(): array
+    {
+        return $this->params;
+    }
+
+    /**
+     *  Gets a route parameter.
+     *
+     * @param string $key
+     * @param string|null $default
+     *
+     * @return string|int|null
+     */
+    public function getParameter(string $key, string $default = null): null|string|int
+    {
+        return $this->params[$key] ?? $default;
     }
 
     /**

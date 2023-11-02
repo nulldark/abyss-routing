@@ -38,12 +38,12 @@ interface RouterInterface
      * Match a given request with a set of routes.
      *
      * @param ServerRequestInterface $request
-     * @return Route
+     * @return RouteMatch
      *
      * @throws RouteNotFoundException
      * @throws MethodNotAllowedException
      */
-    public function match(ServerRequestInterface $request): Route;
+    public function match(ServerRequestInterface $request): RouteMatch;
 
     /**
      * Get set of routes

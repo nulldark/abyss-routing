@@ -37,18 +37,18 @@ class Router implements RouterInterface
     /** @var MatcherInterface|null $matcher */
     protected ?MatcherInterface $matcher = null;
 
-    public function __construct(
-        protected ?RouteCollection $routes = null
-    ) {
-        if ($this->routes === null) {
-            $this->routes = new RouteCollection();
-        }
+    /** @var RouteCollection $routes */
+    protected RouteCollection $routes;
+
+    public function __construct(?RouteCollection $routes = null)
+    {
+        $this->routes = $routes ?: new RouteCollection();
     }
 
     /**
      * @inheritDoc
      */
-    public function match(ServerRequestInterface $request): Route
+    public function match(ServerRequestInterface $request): RouteMatch
     {
         return $this->getMatcher()->matchRequest($request);
     }
