@@ -24,7 +24,7 @@ namespace Nulldark\Routing\Matcher;
 
 use Nulldark\Routing\Exception\MethodNotAllowedException;
 use Nulldark\Routing\Exception\RouteNotFoundException;
-use Nulldark\Routing\Route;
+use Nulldark\Routing\RouteMatch;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -40,10 +40,10 @@ interface MatcherInterface
      * Match a given request with a set of routes.
      *
      * @param ServerRequestInterface $request
-     * @return Route
+     * @return RouteMatch
      *
      * @throws MethodNotAllowedException
      * @throws RouteNotFoundException
      */
-    public function matchRequest(ServerRequestInterface $request): Route;
+    public function matchRequest(ServerRequestInterface $request): RouteMatch;
 }

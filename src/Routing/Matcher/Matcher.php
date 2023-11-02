@@ -26,6 +26,7 @@ use Nulldark\Routing\Exception\MethodNotAllowedException;
 use Nulldark\Routing\Exception\RouteNotFoundException;
 use Nulldark\Routing\Route;
 use Nulldark\Routing\RouteCollection;
+use Nulldark\Routing\RouteMatch;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -51,7 +52,7 @@ class Matcher implements MatcherInterface
     /**
      * @inheritDoc
      */
-    public function matchRequest(ServerRequestInterface $request): Route
+    public function matchRequest(ServerRequestInterface $request): RouteMatch
     {
         $this->request = $request;
 
@@ -62,12 +63,12 @@ class Matcher implements MatcherInterface
      * Match's given path to find a route.
      *
      * @param string $pathinfo
-     * @return Route
+     * @return RouteMatch
      *
      * @throws MethodNotAllowedException
      * @throws RouteNotFoundException
      */
-    protected function match(string $pathinfo): Route
+    protected function match(string $pathinfo): RouteMatch
     {
         $this->allow = [];
 
@@ -91,9 +92,9 @@ class Matcher implements MatcherInterface
      *
      * @param string $pathinfo
      * @param RouteCollection $routes
-     * @return Route|null
+     * @return RouteMatch|null
      */
-    protected function matchRoute(string $pathinfo, RouteCollection $routes): ?Route
+    protected function matchRoute(string $pathinfo, RouteCollection $routes): ?RouteMatch
     {
         if ('HEAD' === $method = $this->request->getMethod()) {
             $method = 'GET';
@@ -126,9 +127,8 @@ class Matcher implements MatcherInterface
                 $route->setArg($key, $match);
             }
 
-            return $route;
+            return new RouteMatch($route->getDefaults(), $matches);
         }
-
         return null;
     }
 }
