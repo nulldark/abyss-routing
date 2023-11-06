@@ -25,11 +25,16 @@
     },
     "require": {
         "laminas/laminas-diactoros": "^3.2",
-        "nulldark/container": "^0.1.0"
+        "nulldark/container": "^0.2.0"
     },
     "scripts": {
         "phpcs": "phpcs",
         "phpstan": "phpstan --memory-limit=-1",
         "phpunit": "phpunit"
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
     }
 }
