@@ -31,18 +31,15 @@ use PHPUnit\Framework\TestCase;
 class RouteCompilerTest extends TestCase
 {
     /**
-     * @covers \Nulldark\Routing\RouteCompiler::compile
-     * @covers \Nulldark\Routing\RouteCompiler::computeRegex
      * @dataProvider dataCompiledData
-     *
-     * @return void
      */
     public function testCompile(array $arguments, string $regex, array $variables, array $tokens): void
     {
         $r = new \ReflectionClass(Route::class);
         $route = $r->newInstanceArgs($arguments);
 
-        $compiled = $route->compile();
+        $compiled = $route->compiled();
+
         $this->assertEquals($regex, $compiled->getRegex());
         $this->assertEquals($variables, $compiled->getVariables());
         $this->assertEquals($tokens, $compiled->getTokens());
@@ -52,13 +49,13 @@ class RouteCompilerTest extends TestCase
     {
         return [
             [
-                ['/bar'], '#^\/bar$#sD', [], [['text', '/bar']]
+                [[], '/bar', fn() => 'test'], '#^\/bar$#sD', [], [['text', '/bar']]
             ],
             [
-                ['/bar/{foo}'], '#^\/bar\/(?P<foo>[^\/]+)$#sD', ['foo'], [['text', '/bar/'], ['variable', '[^\/]+', 'foo']]
+                [[], '/bar/{foo}', fn() => 'test'], '#^\/bar\/(?P<foo>[^\/]+)$#sD', ['foo'], [['text', '/bar/'], ['variable', '[^\/]+', 'foo']]
             ],
             [
-                [''], '#^\/$#sD', [], [['text', '/']]
+                [[], '', fn() => 'test'], '#^\/$#sD', [], [['text', '/']]
             ]
         ];
     }
@@ -71,8 +68,8 @@ class RouteCompilerTest extends TestCase
     {
         $this->expectException(\LogicException::class);
 
-        $route = new Route('/{foo}/{foo}');
-        $route->compile();
+        $route = new Route([], '/{foo}/{foo}', fn() => 'foo');
+        $route->compiled();
     }
 
     /**
@@ -84,8 +81,8 @@ class RouteCompilerTest extends TestCase
     public function testRouteWithVariableStartedWithADigit(string $name): void
     {
         $this->expectException(\DomainException::class);
-        $route = new Route('/{' . $name . '}');
-        $route->compile();
+        $route = new Route(['GET'], '/{' . $name . '}', fn() => 'foo');
+        $route->compiled();
     }
 
     public static function dataVariableNamesStartingWithDigit(): iterable
@@ -104,7 +101,11 @@ class RouteCompilerTest extends TestCase
     public function testRouteWithTooLongVariableName(): void
     {
         $this->expectException(\DomainException::class);
-        $route = new Route(sprintf('/{%s}', str_repeat('b', RouteCompiler::VARIABLE_MAXIMUM_LENGTH + 1)));
-        $route->compile();
+        $route = new Route(
+            [],
+            sprintf('/{%s}', str_repeat('b', RouteCompiler::VARIABLE_MAXIMUM_LENGTH + 1)),
+            fn () => 'foo'
+        );
+        $route->compiled();
     }
 }

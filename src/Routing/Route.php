@@ -23,46 +23,81 @@
 namespace Nulldark\Routing;
 
 /**
- * @author Dominik Szamburski
- * @package Routing
- * @license LGPL-2.1
- * @version 0.1.0
+ * @package Nulldark\Routing
+ * @since 0.1.0
  */
 class Route
 {
-    /** @var string $path */
-    private string $path;
+    /**
+     * The HTTP methods for this route.
+     *
+     * @var string[] $methods
+     */
+    public array $methods = [];
 
-    /** @var array<string, mixed> $defaults */
-    private array $defaults;
+    /**
+     * The path for this route.
+     *
+     * @var string $path
+     */
+    public string $path;
 
-    /** @var string[] */
-    private array $methods;
+    /**
+     * The route handler.
+     *
+     * @var \Closure|string
+     */
+    public \Closure|string $callback;
 
-    /** @var array<string, int|string> $args */
-    private array $args = [];
-
-    /** @var CompiledRoute|null $compiled */
+    /**
+     * The compiled version of the route.
+     *
+     * @var CompiledRoute|null $compiled
+     */
     private ?CompiledRoute $compiled;
 
     /**
-     * @param string               $path
-     * @param array<string, mixed> $defaults
-     * @param string[]             $methods
+     * The default parameter values.
+     *
+     * @var mixed[] $defaults
      */
-    public function __construct(string $path, array $defaults = [], array $methods = [])
+    private array $defaults = [];
+
+    /**
+     * @param string[] $methods
+     * @param string $path
+     * @param \Closure|string $callback
+     */
+    public function __construct(array $methods, string $path, \Closure|string $callback)
     {
         $this->setPath($path);
-        $this->setDefaults($defaults);
         $this->setMethods($methods);
+        $this->setCallback($callback);
     }
 
     /**
-     * Sets route pattern.
+     * Sets a route HTTP methods.
+     *
+     * @param string[] $methods
+     * @return $this
+     */
+    public function setMethods(array $methods): self
+    {
+        $this->compiled = null;
+        $this->methods = [];
+
+        foreach ($methods as $method) {
+            $this->methods[] = strtoupper($method);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets a route path.
      *
      * @param string $path
-     *
-     * @return       $this
+     * @return $this
      */
     public function setPath(string $path): self
     {
@@ -73,44 +108,69 @@ class Route
     }
 
     /**
-     * Gets route pattern.
+     * Sets as route handler.
+     *
+     * @param \Closure|string $callback
+     * @return $this
+     */
+    public function setCallback(\Closure|string $callback): self
+    {
+        $this->callback = $callback;
+        return $this;
+    }
+
+    /**
+     * Gets HTTP methods for currenet route.
+     *
+     * @return string[]
+     */
+    public function methods(): array
+    {
+        return $this->methods;
+    }
+
+    /**
+     * Gets a route pattern.
      *
      * @return string
      */
-    public function getPath(): string
+    public function path(): string
     {
         return $this->path;
     }
 
     /**
-     * Sets allowed HTTP methods for route.
+     * Gets a route handler.
      *
-     * @param string|string[] $methods
-     * @return $this
+     * @return \Closure|string
      */
-    public function setMethods(string|array $methods): self
+    public function callback(): \Closure|string
     {
-        $this->methods = array_map('strtoupper', (array) $methods);
+        return $this->callback;
+    }
+
+    /**
+     * Sets new default parameter for route.
+     *
+     * @param string $name
+     * @param mixed $default
+     *
+     * @return self
+     */
+    public function setDefault(string $name, mixed $default): self
+    {
+        $this->defaults[$name] = $default;
         $this->compiled = null;
 
         return $this;
     }
 
     /**
-     * Gets methods for route.
-     *
-     * @return string[]
-     */
-    public function getMethods(): array
-    {
-        return $this->methods;
-    }
-
-    /**
-     * Sets route defaults.
+     * Sets given defaults into route.
      *
      * @param array<string, mixed> $defaults
-     * @return $this
+     *
+     * @return self
      */
     public function setDefaults(array $defaults): self
     {
@@ -126,9 +186,21 @@ class Route
     }
 
     /**
-     * Gets route defaults.
+     * Checks if the indicated parameter exists.
      *
-     * @return array<string, mixed>
+     * @param string $name
+     *
+     * @return bool
+     */
+    public function hasDefault(string $name): bool
+    {
+        return \array_key_exists($name, $this->defaults);
+    }
+
+    /**
+     * Gets a default parameters.
+     *
+     * @return mixed[]
      */
     public function getDefaults(): array
     {
@@ -136,43 +208,14 @@ class Route
     }
 
     /**
-     * @param string $name
-     * @param int|string $value
-     * @return $this
-     */
-    public function setArg(string $name, int|string $value): self
-    {
-        $this->args[$name] = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $name
-     * @return int|string|null
-     */
-    public function getArg(string $name): int|string|null
-    {
-        return $this->args[$name] ?? null;
-    }
-
-    /**
-     * @return array<string, int|string>
-     */
-    public function getArgs(): array
-    {
-        return $this->args;
-    }
-
-    /**
-     * Compiles a route.
+     * Compiles a current route.
      *
      * @return CompiledRoute
      */
-    public function compile(): CompiledRoute
+    public function compiled(): CompiledRoute
     {
         if ($this->compiled === null) {
-            $this->compiled = RouteCompiler::compile($this->getPath());
+            $this->compiled = RouteCompiler::compile($this->path());
         }
 
         return $this->compiled;

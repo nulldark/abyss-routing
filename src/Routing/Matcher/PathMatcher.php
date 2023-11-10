@@ -20,40 +20,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Tests\Units;
+namespace Nulldark\Routing\Matcher;
 
 use Nulldark\Routing\Route;
-use Nulldark\Tests\Stub\RouteStub;
-use PHPUnit\Framework\Attributes\CoversClass;
-use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface;
 
-#[CoversClass(Route::class)]
-class RouteTest extends TestCase
+/**
+ * @package Nulldark\Routing\Matcher
+ * @since 2.0.0
+ */
+class PathMatcher implements MatcherInterface
 {
     /**
-     * @covers \Nulldark\Routing\Route::setPath
-     * @covers \Nulldark\Routing\Route::getPath
-     * @return void
+     * @inheritDoc
      */
-    public function testPath(): void
+    public function match(Route $route, ServerRequestInterface $request): bool
     {
-        $route = new RouteStub();
-
-        $route->setPath('');
-        $this->assertEquals('/', $route->path());
-
-        $route->setPath('//bar');
-        $this->assertEquals('/bar', $route->path());
-    }
-
-    public function testMethods(): void
-    {
-        $route = new RouteStub();
-
-        $route->setMethods(['GET']);
-        $this->assertEquals(['GET'], $route->methods());
-
-        $route->setMethods(['POST', 'PUT']);
-        $this->assertEquals(['POST', 'PUT'], $route->methods());
+        return (bool) \preg_match(
+            $route->compiled()->getRegex(),
+            rawurldecode(rtrim($request->getUri()->getPath(), '/') ?: '/')
+        );
     }
 }

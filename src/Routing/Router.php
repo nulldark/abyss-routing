@@ -22,71 +22,114 @@
 
 namespace Nulldark\Routing;
 
-use Nulldark\Routing\Matcher\Matcher;
-use Nulldark\Routing\Matcher\MatcherInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @author Dominik Szamburski
- * @package Routing
- * @license LGPL-2.1
- * @version 0.1.0
+ * @package Nulldark\Routing
+ * @version 2.0.0
  */
 class Router implements RouterInterface
 {
-    /** @var MatcherInterface|null $matcher */
-    protected ?MatcherInterface $matcher = null;
+    /**
+     * The collection of routes.
+     *
+     * @var RouteCollectionInterface $routes
+     */
+    private RouteCollectionInterface $routes;
 
-    /** @var RouteCollection $routes */
-    protected RouteCollection $routes;
-
-    public function __construct(?RouteCollection $routes = null)
+    public function __construct()
     {
-        $this->routes = $routes ?: new RouteCollection();
+        $this->routes = new RouteCollection();
     }
 
     /**
      * @inheritDoc
      */
-    public function match(ServerRequestInterface $request): RouteMatch
+    public function match(ServerRequestInterface $request): Route
     {
-        return $this->getMatcher()->matchRequest($request);
+        return $this->routes->match($request);
     }
 
     /**
      * @inheritDoc
      */
-    public function getRouteCollection(): RouteCollection
+    public function getRouteCollection(): RouteCollectionInterface
     {
         return $this->routes;
     }
 
     /**
-     * Sets the set of routes
-     *
-     * @param RouteCollection $routes
-     * @return $this
+     * @inheritDoc
      */
-    public function setRouteCollection(RouteCollection $routes): self
+    public function setRouteCollection(RouteCollectionInterface $routeCollection): self
     {
-        $this->routes = $routes;
+        $this->routes = $routeCollection;
+
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function get(string $path, \Closure|string $callback): Route
+    {
+        return $this->addRoute(['GET'], $path, $callback);
+    }
 
     /**
-     * Gets a matcher
-     *
-     * @return MatcherInterface
+     * @inheritDoc
      */
-    public function getMatcher(): MatcherInterface
+    public function post(string $path, \Closure|string $callback): Route
     {
-        if (null !== $this->matcher) {
-            return $this->matcher;
-        }
+        return $this->addRoute(['POST'], $path, $callback);
+    }
 
-        return new Matcher(
-            $this->routes
+    /**
+    /**
+     * @inheritDoc
+     */
+    public function put(string $path, \Closure|string $callback): Route
+    {
+        return $this->addRoute(['PUT'], $path, $callback);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function patch(string $path, \Closure|string $callback): Route
+    {
+        return $this->addRoute(['PATCH'], $path, $callback);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function delete(string $path, \Closure|string $callback): Route
+    {
+        return $this->addRoute(['DELETE'], $path, $callback);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function options(string $path, \Closure|string $callback): Route
+    {
+        return $this->addRoute(['OPTIONS'], $path, $callback);
+    }
+
+    /**
+     * Adds new route to the collection.
+     *
+     * @param string[] $methods
+     * @param string $path
+     * @param \Closure|string $callback
+     *
+     * @return Route
+     */
+    public function addRoute(array $methods, string $path, \Closure|string $callback): Route
+    {
+        return $this->routes->add(
+            new Route($methods, $path, $callback)
         );
     }
 }

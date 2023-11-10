@@ -23,11 +23,8 @@
 namespace Nulldark\Routing\Exception;
 
 /**
- * @author Dominik Szamburski
- * @package Routing
- * @subpackage Exception
- * @license LGPL-2.1
- * @version 0.1.0
+ * @package Nulldark\Routing\Exception
+ * @since 0.1.0
  */
 class RouteNotFoundException extends \Exception
 {

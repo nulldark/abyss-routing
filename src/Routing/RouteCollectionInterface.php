@@ -22,49 +22,46 @@
 
 namespace Nulldark\Routing;
 
+use Nulldark\Routing\Exception\MethodNotAllowedException;
+use Nulldark\Routing\Exception\RouteNotFoundException;
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * @package Nulldark\Routing
  * @since 0.1.0
+ *
+ * @extends \IteratorAggregate<array-key, Route>
  */
-final readonly class CompiledRoute
+interface RouteCollectionInterface extends \IteratorAggregate, \Countable
 {
-    public function __construct(
-        /** @var string $regex */
-        private string $regex,
-        /** @var array<int<0, max>, int|string> $variables */
-        private array $variables,
-        /** @var array<int<0, max>, array<int, string>> $tokens */
-        private array $tokens
-    ) {
-    }
+    /**
+     * Matches a given request with a set of routes.
+     *
+     * @param ServerRequestInterface $request
+     *
+     * @return Route
+     *
+     * @throws MethodNotAllowedException
+     * @throws RouteNotFoundException
+     */
+    public function match(ServerRequestInterface $request): Route;
 
     /**
-     * Gets a regex path.
+     * Returns all defined routes in the collection, if the `$method` parameter was
+     * passed it only returns routes for the specified methode
      *
-     * @return string
+     * @param string|null $method
+     *
+     * @return array<string, Route>|Route[]
      */
-    public function getRegex(): string
-    {
-        return $this->regex;
-    }
+    public function getRoutes(string $method = null): array;
 
     /**
-     * Gets all variables of defined route.
+     * Adds a new route to the collection.
      *
-     * @return array<int<0, max>, int|string>
-     */
-    public function getVariables(): array
-    {
-        return $this->variables;
-    }
-
-    /**
-     * Gets all route tokens.
+     * @param Route $route
      *
-     * @return array<int<0, max>, array<int, string>>
+     * @return Route
      */
-    public function getTokens(): array
-    {
-        return $this->tokens;
-    }
+    public function add(Route $route): Route;
 }

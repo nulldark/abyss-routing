@@ -20,40 +20,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Tests\Units;
+namespace Nulldark\Tests\Units\Matcher;
 
+use Nulldark\Routing\Matcher\MethodMatcher;
+use Nulldark\Routing\Matcher\PathMatcher;
 use Nulldark\Routing\Route;
-use Nulldark\Tests\Stub\RouteStub;
-use PHPUnit\Framework\Attributes\CoversClass;
+use Nulldark\Routing\Router;
+use Nulldark\Tests\Mock\ServerRequestMock;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(Route::class)]
-class RouteTest extends TestCase
+class MethodMatcherTest extends TestCase
 {
-    /**
-     * @covers \Nulldark\Routing\Route::setPath
-     * @covers \Nulldark\Routing\Route::getPath
-     * @return void
-     */
-    public function testPath(): void
+    public function testCheckGivenRequestMethodIsMatch(): void
     {
-        $route = new RouteStub();
+        $router = new Router();
+        $route = $router->get('/foo/{foo}', fn() => 'foo');
 
-        $route->setPath('');
-        $this->assertEquals('/', $route->path());
+        $matcher = new MethodMatcher();
 
-        $route->setPath('//bar');
-        $this->assertEquals('/bar', $route->path());
-    }
-
-    public function testMethods(): void
-    {
-        $route = new RouteStub();
-
-        $route->setMethods(['GET']);
-        $this->assertEquals(['GET'], $route->methods());
-
-        $route->setMethods(['POST', 'PUT']);
-        $this->assertEquals(['POST', 'PUT'], $route->methods());
+        self::assertTrue($matcher->match($route, ServerRequestMock::create('/')));
     }
 }

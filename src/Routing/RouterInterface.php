@@ -27,28 +27,95 @@ use Nulldark\Routing\Exception\RouteNotFoundException;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @author Dominik Szamburski
- * @package Routing
- * @license LGPL-2.1
- * @version 0.1.0
+ * @package Nulldark\Routing
+ * @version 2.0.0
  */
 interface RouterInterface
 {
     /**
-     * Match a given request with a set of routes.
+     * Matches a given request with a set of routes.
      *
      * @param ServerRequestInterface $request
-     * @return RouteMatch
+     *
+     * @return Route
      *
      * @throws RouteNotFoundException
      * @throws MethodNotAllowedException
      */
-    public function match(ServerRequestInterface $request): RouteMatch;
+    public function match(ServerRequestInterface $request): Route;
 
     /**
-     * Get set of routes
+     * Sets a new routes collection.
      *
-     * @return RouteCollection
+     * @param RouteCollectionInterface $routeCollection
+     *
+     * @return self
      */
-    public function getRouteCollection(): RouteCollection;
+    public function setRouteCollection(RouteCollectionInterface $routeCollection): self;
+
+    /**
+     * Gets a route collection.
+     *
+     * @return RouteCollectionInterface
+     */
+    public function getRouteCollection(): RouteCollectionInterface;
+
+    /**
+     *  Adds GET route.
+     *
+     * @param string $path
+     * @param \Closure|string $callback
+     *
+     * @return Route
+     */
+    public function get(string $path, \Closure|string $callback): Route;
+    /**
+     * Adds POST route.
+     *
+     * @param string $path
+     * @param \Closure|string $callback
+     *
+     * @return Route
+     */
+    public function post(string $path, \Closure|string $callback): Route;
+
+    /**
+     * Adds PUT route.
+     *
+     * @param string $path
+     * @param \Closure|string $callback
+     *
+     * @return Route
+     */
+    public function put(string $path, \Closure|string $callback): Route;
+
+    /**
+     * Adds PATCH route.
+     *
+     * @param string $path
+     * @param \Closure|string $callback
+     *
+     * @return Route
+     */
+    public function patch(string $path, \Closure|string $callback): Route;
+
+    /**
+     * Adds DELETE route.
+     *
+     * @param string $path
+     * @param \Closure|string $callback
+     *
+     * @return Route
+     */
+    public function delete(string $path, \Closure|string $callback): Route;
+
+    /**
+     * Adds OPTIONS route.
+     *
+     * @param string $path
+     * @param \Closure|string $callback
+     *
+     * @return Route
+     */
+    public function options(string $path, \Closure|string $callback): Route;
 }

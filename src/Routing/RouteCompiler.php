@@ -23,12 +23,8 @@
 namespace Nulldark\Routing;
 
 /**
- * @internal
- *
- * @author Dominik Szamburski
- * @package Routing
- * @license LGPL-2.1
- * @version 0.1.0
+ * @package Nulldark\Routing
+ * @since 0.1.0
  */
 final class RouteCompiler
 {

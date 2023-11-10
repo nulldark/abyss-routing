@@ -22,35 +22,40 @@
 
 namespace Nulldark\Routing;
 
+use Nulldark\Routing\Matcher\MatcherInterface;
+use Nulldark\Routing\Matcher\MethodMatcher;
+use Nulldark\Routing\Matcher\PathMatcher;
+use Nulldark\Routing\Exception\MethodNotAllowedException;
+use Nulldark\Routing\Exception\RouteNotFoundException;
+use Psr\Http\Message\ServerRequestInterface;
 use Traversable;
 
 /**
- * @author Dominik Szamburski
- * @package Routing
- * @license LGPL-2.1
- * @version 0.1.0
- *
- * @implements \IteratorAggregate<string, Route>
+ * @package Nulldark\Routing
+ * @since 0.1.0
  */
-final class RouteCollection implements \IteratorAggregate, \Countable
+class RouteCollection implements RouteCollectionInterface
 {
-    /** @var array<string, Route> $routes */
+    /** @var string[] $allow */
+    private array $allow;
+
+    /**
+     * The collection of routes.
+     *
+     * @var array<string, Route> $routes
+     */
     private array $routes = [];
 
     /**
-     * Get iterator.
-     *
-     * @return \ArrayIterator<string, Route>
+     * @inheritDoc
      */
-    public function getIterator(): \ArrayIterator
+    public function getIterator(): Traversable
     {
-        return new \ArrayIterator($this->all());
+        return new \ArrayIterator($this->routes);
     }
 
     /**
-     * Gets size of set.
-     *
-     * @return int
+     * @inheritDoc
      */
     public function count(): int
     {
@@ -58,48 +63,107 @@ final class RouteCollection implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Adds new route to the set.
-     *
-     * @param string $name
-     * @param Route $route
-     * @return void
+     * @inheritDoc
      */
-    public function add(string $name, Route $route): void
+    public function getRoutes(string $method = null): array
     {
-        $this->routes[$name] = $route;
+        if ($method === null) {
+            return $this->routes;
+        }
+
+        $routes = \array_map(function (Route $route) use ($method) {
+            if (\in_array($method, $route->methods())) {
+                return $route;
+            }
+
+            return null;
+        }, $this->routes);
+
+        return \array_filter($routes);
     }
 
     /**
-     * Gets all routes.
-     *
-     * @return Route[]
+     * @inheritDoc
      */
-    public function all(): array
+    public function add(Route $route): Route
     {
-        return $this->routes;
+        $this->routes[\spl_object_hash($route)] = $route;
+
+        return $route;
     }
 
 
     /**
-     * Gets a specify route by name.
+     * @inheritDoc
+     */
+    public function match(ServerRequestInterface $request): Route
+    {
+        $this->allow = [];
+
+        if ($route = $this->matchCollection($request)) {
+            return $route;
+        }
+
+        if (\count($this->allow) > 0) {
+            throw new MethodNotAllowedException(sprintf(
+                'The %s method is not supported for route %s. Supported methods: %s.',
+                $request->getMethod(),
+                $request->getUri()->getPath(),
+                \implode(', ', \array_unique($this->allow))
+            ));
+        }
+
+        throw new RouteNotFoundException(sprintf(
+            'The route %s could not be found.',
+            $request->getUri()->getPath()
+        ));
+    }
+
+    /**
+     * @param ServerRequestInterface $request
      *
-     * @param string $name
      * @return Route|null
      */
-    public function get(string $name): ?Route
+    protected function matchCollection(ServerRequestInterface $request): ?Route
     {
-        return $this->routes[$name] ?? null;
+        foreach ($this->routes as $route) {
+            if ($this->matchRoute($request, $route) === true) {
+                return $route;
+            }
+        }
+
+        return null;
     }
 
     /**
-     * @param self $collection
-     * @return void
+     * @param ServerRequestInterface $request
+     * @param Route $route
+     *
+     * @return bool
      */
-    public function mergeCollection(self $collection): void
+    protected function matchRoute(ServerRequestInterface $request, Route $route): bool
     {
-        foreach ($collection->all() as $name => $route) {
-            unset($this->routes[$name]);
-            $this->routes[$name] = $route;
+        foreach ($this->getMatchers() as $matcher) {
+            if ($matcher->match($route, $request) === false) {
+                if ($matcher instanceof MethodMatcher) {
+                    $this->allow[] = $request->getMethod();
+                }
+
+                return false;
+            }
         }
+
+        return true;
+    }
+
+    /**
+     * Gets a matchers.
+     *
+     * @return \Generator<MatcherInterface>
+     */
+    private function getMatchers(): \Generator
+    {
+        yield new MethodMatcher();
+        yield new PathMatcher();
     }
 }

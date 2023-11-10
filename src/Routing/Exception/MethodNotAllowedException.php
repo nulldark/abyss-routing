@@ -23,28 +23,9 @@
 namespace Nulldark\Routing\Exception;
 
 /**
- * @author Dominik Szamburski
- * @package Routing
- * @subpackage Exception
- * @license LGPL-2.1
- * @version 0.1.0
+ * @package Nulldark\Routing\Exception
+ * @since 0.1.0
  */
 class MethodNotAllowedException extends \Exception
 {
-    /**
-     * @param string[] $methods
-     */
-    public function __construct(array $methods)
-    {
-        parent::__construct(
-            sprintf(
-                "Allowed methods for route '%s'.",
-                implode(
-                    '|',
-                    array_map('strtoupper', $methods)
-                )
-            ),
-            405
-        );
-    }
 }
