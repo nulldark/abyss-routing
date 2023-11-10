@@ -35,7 +35,7 @@ use PHPUnit\Framework\TestCase;
 class RouterTest extends TestCase
 {
     /**
-     * @covers \Nulldark\Routing\Router::getMatcher
+     * @covers \Nulldark\Routing\Routing::getMatcher
      * @return void
      */
     public function testGetMatcher(): void
@@ -50,7 +50,7 @@ class RouterTest extends TestCase
     }
 
     /**
-     * @covers \Nulldark\Routing\Router::match
+     * @covers \Nulldark\Routing\Routing::match
      * @return void
      */
     public function testMatch(): void

@@ -20,12 +20,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Routing\Exception;
+namespace Nulldark\Routing\Matcher;
+
+use Nulldark\Routing\Route;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @package Nulldark\Routing\Exception
- * @since 0.1.0
+ * @package Nulldark\Routing\Matcher
+ * @since 2.0.0
  */
-class MethodNotAllowedException extends \Exception
+class PathMatcher implements MatcherInterface
 {
+    /**
+     * @inheritDoc
+     */
+    public function match(Route $route, ServerRequestInterface $request): bool
+    {
+        return (bool) \preg_match(
+            $route->compiled()->getRegex(),
+            rawurldecode(rtrim($request->getUri()->getPath(), '/') ?: '/')
+        );
+    }
 }
