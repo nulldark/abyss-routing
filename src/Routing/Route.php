@@ -84,6 +84,7 @@ class Route
     public function setMethods(array $methods): self
     {
         $this->compiled = null;
+        $this->methods = [];
 
         foreach ($methods as $method) {
             $this->methods[] = strtoupper($method);
