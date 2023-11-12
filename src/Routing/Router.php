@@ -47,7 +47,19 @@ class Router implements RouterInterface
      */
     public function match(ServerRequestInterface $request): Route
     {
-        return $this->routes->match($request);
+        $route =  $this->routes->match($request);
+
+        preg_match($route->compiled()->getRegex(), $request->getUri()->getPath(), $matches);
+
+        foreach ($matches as $key => $value) {
+            if (is_numeric($key) || $value === null) {
+                continue;
+            }
+
+            $route->setParameter($key, $value);
+        }
+
+        return $route;
     }
 
     /**
