@@ -64,6 +64,13 @@ class Route
     private array $defaults = [];
 
     /**
+     * The path parameters values.
+     *
+     * @var array<string, mixed> $parameters
+     */
+    private array $parameters = [];
+
+    /**
      * @param string[] $methods
      * @param string $path
      * @param \Closure|string|array<class-string, string> $callback
@@ -205,6 +212,43 @@ class Route
     public function getDefaults(): array
     {
         return $this->defaults;
+    }
+
+    /**
+     * Gets a path parameters.
+     *
+     * @return mixed[]
+     */
+    public function getParameters(): array
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * Gets path parameter.
+     *
+     * @param string $key
+     * @param mixed|null $default
+     *
+     * @return null|mixed
+     */
+    public function getParameter(string $key, mixed $default = null): mixed
+    {
+        return $this->parameters[$key] ?? $default;
+    }
+
+    /**
+     * Sets a new path parameter.
+     *
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return self
+     */
+    public function setParameter(string $key, mixed $value): self
+    {
+        $this->parameters[$key] = $value;
+        return $this;
     }
 
     /**
