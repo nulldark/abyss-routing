@@ -45,9 +45,9 @@ class Route
     /**
      * The route handler.
      *
-     * @var \Closure|string
+     * @var \Closure|string|array<class-string, string> $callback
      */
-    public \Closure|string $callback;
+    public \Closure|string|array $callback;
 
     /**
      * The compiled version of the route.
@@ -66,9 +66,9 @@ class Route
     /**
      * @param string[] $methods
      * @param string $path
-     * @param \Closure|string $callback
+     * @param \Closure|string|array<class-string, string> $callback
      */
-    public function __construct(array $methods, string $path, \Closure|string $callback)
+    public function __construct(array $methods, string $path, \Closure|string|array $callback)
     {
         $this->setPath($path);
         $this->setMethods($methods);
@@ -110,10 +110,10 @@ class Route
     /**
      * Sets as route handler.
      *
-     * @param \Closure|string $callback
+     * @param \Closure|string|array<class-string, string> $callback
      * @return $this
      */
-    public function setCallback(\Closure|string $callback): self
+    public function setCallback(\Closure|string|array $callback): self
     {
         $this->callback = $callback;
         return $this;
@@ -142,9 +142,9 @@ class Route
     /**
      * Gets a route handler.
      *
-     * @return \Closure|string
+     * @return \Closure|string|array<class-string, string|null>
      */
-    public function callback(): \Closure|string
+    public function callback(): \Closure|string|array
     {
         return $this->callback;
     }
