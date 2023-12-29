@@ -29,6 +29,8 @@
     },
     "scripts": {
         "analyze:md": "phpmd src/ xml phpmd.xml",
+        "lint:style": "phpcs --colors --cache=build/cache/phpcs.cache",
+        "lint:fix": "phpcbf --cache=build/cache/phpcs.cache",
         "phpcbf": "phpcbf",
         "phpstan": "phpstan --memory-limit=-1",
         "phpunit": "phpunit"
