@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark/routing
+ * This file is part of abyss/routing
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,10 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Tests\Units;
+namespace Abyss\Tests\Units;
 
-use Nulldark\Routing\Route;
-use Nulldark\Routing\RouteCompiler;
+use Abyss\Routing\Route;
+use Abyss\Routing\RouteCompiler;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -61,7 +61,7 @@ class RouteCompilerTest extends TestCase
     }
 
     /**
-     * @covers \Nulldark\Routing\RouteCompiler::compile
+     * @covers \Abyss\Routing\RouteCompiler::compile
      * @return void
      */
     public function testRouteWithSameVariablesThrowsException(): void
@@ -73,7 +73,7 @@ class RouteCompilerTest extends TestCase
     }
 
     /**
-     * @covers \Nulldark\Routing\RouteCompiler::compile
+     * @covers \Abyss\Routing\RouteCompiler::compile
      * @dataProvider dataVariableNamesStartingWithDigit
      * @param string $name
      * @return void
@@ -95,7 +95,7 @@ class RouteCompilerTest extends TestCase
     }
 
     /**
-     * @covers \Nulldark\Routing\RouteCompiler::compile
+     * @covers \Abyss\Routing\RouteCompiler::compile
      * @return void
      */
     public function testRouteWithTooLongVariableName(): void

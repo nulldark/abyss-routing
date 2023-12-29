@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark/routing
+ * This file is part of abyss/routing
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,10 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Tests\Units;
+namespace Abyss\Tests\Units;
 
-use Nulldark\Routing\Route;
-use Nulldark\Tests\Stub\RouteStub;
+use Abyss\Routing\Route;
+use Abyss\Tests\Stub\RouteStub;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -31,8 +31,8 @@ use PHPUnit\Framework\TestCase;
 class RouteTest extends TestCase
 {
     /**
-     * @covers \Nulldark\Routing\Route::setPath
-     * @covers \Nulldark\Routing\Route::getPath
+     * @covers \Abyss\Routing\Route::setPath
+     * @covers \Abyss\Routing\Route::getPath
      * @return void
      */
     public function testPath(): void

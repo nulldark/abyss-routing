@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark/routing
+ * This file is part of abyss/routing
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,13 +20,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Routing\Matcher;
+namespace Abyss\Routing\Matcher;
 
-use Nulldark\Routing\Route;
+use Abyss\Routing\Route;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @package Nulldark\Routing\Matcher
+ * @package Abyss\Routing\Matcher
  * @since 2.0.0
  */
 class PathMatcher implements MatcherInterface

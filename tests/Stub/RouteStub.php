@@ -1,8 +1,8 @@
 <?php
 
-namespace Nulldark\Tests\Stub;
+namespace Abyss\Tests\Stub;
 
-use Nulldark\Routing\Route;
+use Abyss\Routing\Route;
 
 class RouteStub extends Route
 {

@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark/routing
+ * This file is part of abyss/routing
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,18 +20,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Routing;
+namespace Abyss\Routing;
 
-use Nulldark\Routing\Matcher\MatcherInterface;
-use Nulldark\Routing\Matcher\MethodMatcher;
-use Nulldark\Routing\Matcher\PathMatcher;
-use Nulldark\Routing\Exception\MethodNotAllowedException;
-use Nulldark\Routing\Exception\RouteNotFoundException;
+use Abyss\Routing\Matcher\MatcherInterface;
+use Abyss\Routing\Matcher\MethodMatcher;
+use Abyss\Routing\Matcher\PathMatcher;
+use Abyss\Routing\Exception\MethodNotAllowedException;
+use Abyss\Routing\Exception\RouteNotFoundException;
 use Psr\Http\Message\ServerRequestInterface;
 use Traversable;
 
 /**
- * @package Nulldark\Routing
+ * @package Abyss\Routing
  * @since 0.1.0
  */
 class RouteCollection implements RouteCollectionInterface

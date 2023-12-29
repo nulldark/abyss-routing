@@ -1,6 +1,6 @@
 <?php
 
-namespace Nulldark\Tests\Stub;
+namespace Abyss\Tests\Stub;
 
 class CallbackStub
 {

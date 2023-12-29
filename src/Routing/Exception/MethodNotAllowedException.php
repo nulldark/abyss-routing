@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark/routing
+ * This file is part of abyss/routing
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,10 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Routing\Exception;
+namespace Abyss\Routing\Exception;
 
 /**
- * @package Nulldark\Routing\Exception
+ * @package Abyss\Routing\Exception
  * @since 0.1.0
  */
 class MethodNotAllowedException extends \Exception

@@ -3,7 +3,7 @@
 /**
  * Copyright (C) 2023 Dominik Szamburski
  *
- * This file is part of nulldark/routing
+ * This file is part of abyss/routing
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -20,12 +20,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-namespace Nulldark\Tests\Units;
+namespace Abyss\Tests\Units;
 
-use Nulldark\Routing\Route;
-use Nulldark\Routing\RouteCollectionInterface;
-use Nulldark\Routing\Router;
-use Nulldark\Tests\Mock\ServerRequestMock;
+use Abyss\Routing\Route;
+use Abyss\Routing\RouteCollectionInterface;
+use Abyss\Routing\Router;
+use Abyss\Tests\Mock\ServerRequestMock;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
