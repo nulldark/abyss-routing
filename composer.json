@@ -2,6 +2,7 @@
     "name": "abyss/routing",
     "description": "Routing Component",
     "license": "LGPL-2.0-only",
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Abyss\\Routing\\": "src/Routing/"
