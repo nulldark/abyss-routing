@@ -36,6 +36,7 @@
         "build:clean:coverage": "git clone -fX build/coverage/.",
         "lint:style": "phpcs --colors --cache=build/cache/phpcs.cache",
         "lint:fix": "phpcbf --cache=build/cache/phpcs.cache",
+        "lint:syntax": "parallel-lint --colors src tests",
         "test:units": "phpunit --colors=always",
         "test:coverage:ci": "phpunit --colors=always --coverage-text --coverage-xml ./build/coverage/xml tests",
         "test:coverage:html": "phpunit --colors=always --coverage-html ./build/coverage/html tests",
