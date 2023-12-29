@@ -34,6 +34,13 @@
         "build:clean": "git clean -fX build/.",
         "build:clean:cache": "git clone -fX build/cache/.",
         "build:clean:coverage": "git clone -fX build/coverage/.",
+        "checks": [
+            "@lint:check",
+            "@analyze:psalm",
+            "@analyze:phpstan",
+            "@test:unit",
+            "@test:coverage:html"
+        ],
         "lint:style": "phpcs --colors --cache=build/cache/phpcs.cache",
         "lint:fix": "phpcbf --cache=build/cache/phpcs.cache",
         "lint:syntax": "parallel-lint --colors src tests",
