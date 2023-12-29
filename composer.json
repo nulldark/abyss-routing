@@ -29,6 +29,8 @@
     },
     "scripts": {
         "analyze:md": "phpmd src/ xml phpmd.xml",
+        "analyze:phpstan": "phpstan analyze --ansi",
+        "analyze:psalm": "psalm",
         "build:clean": "git clean -fX build/.",
         "build:clean:cache": "git clone -fX build/cache/.",
         "build:clean:coverage": "git clone -fX build/coverage/.",
