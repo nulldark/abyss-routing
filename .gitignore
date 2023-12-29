@@ -130,6 +130,7 @@ fabric.properties
 # Edit at https://www.toptal.com/developers/gitignore?templates=composer
 
 ### Composer ###
+composer.lock
 composer.phar
 /vendor/
 
