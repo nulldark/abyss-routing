@@ -36,9 +36,11 @@ class PathMatcher implements MatcherInterface
      */
     public function match(Route $route, ServerRequestInterface $request): bool
     {
+        $path = \rtrim($request->getUri()->getPath(), '/');
+
         return (bool) \preg_match(
             $route->compiled()->getRegex(),
-            rawurldecode(rtrim($request->getUri()->getPath(), '/') ?: '/'),
+            \rawurldecode($path !== '' ? $path : '/'),
         );
     }
 }

@@ -41,8 +41,8 @@ class CompiledRouteTest extends TestCase
     {
         $compiled = new CompiledRoute('regex', ['variables'], ['tokens']);
 
-        $this->assertEquals('regex', $compiled->getRegex());
-        $this->assertEquals(['variables'], $compiled->getVariables());
-        $this->assertEquals(['tokens'], $compiled->getTokens());
+        self::assertEquals('regex', $compiled->getRegex());
+        self::assertEquals(['variables'], $compiled->getVariables());
+        self::assertEquals(['tokens'], $compiled->getTokens());
     }
 }

@@ -3,8 +3,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     cacheDirectory="./build/cache/psalm"
-    errorLevel="1"
-    findUnusedBaselineEntry="true"
+    errorLevel="4"
+    findUnusedBaselineEntry="false"
+    findUnusedCode="false"
+    findUnusedIssueHandlerSuppression="false"
 >
     <projectFiles>
         <directory name="src"/>
@@ -13,6 +15,39 @@
             <directory name="vendor"/>
         </ignoreFiles>
     </projectFiles>
+
+    <issueHandlers>
+        <UndefinedClass>
+            <errorLevel type="suppress">
+                <referencedClass name="BackedEnum"/>
+                <referencedClass name="ReflectionIntersectionType"/>
+                <referencedClass name="UnitEnum"/>
+                <referencedClass name="Random\*"/>
+            </errorLevel>
+        </UndefinedClass>
+        <UndefinedDocblockClass>
+            <errorLevel type="suppress">
+                <referencedClass name="BackedEnum"/>
+                <referencedClass name="ReflectionIntersectionType"/>
+                <referencedClass name="UnitEnum"/>
+            </errorLevel>
+        </UndefinedDocblockClass>
+        <UnusedClass>
+            <errorLevel type="suppress">
+                <directory name="src/Routing" />
+            </errorLevel>
+        </UnusedClass>
+        <UnusedConstructor>
+            <errorLevel type="suppress">
+                <directory name="src/Routing" />
+            </errorLevel>
+        </UnusedConstructor>
+        <UndefinedAttributeClass>
+            <errorLevel type="suppress">
+                <referencedClass name="SensitiveParameter"/>
+            </errorLevel>
+        </UndefinedAttributeClass>
+    </issueHandlers>
 
     <plugins>
         <pluginClass class="Psalm\MockeryPlugin\Plugin"/>

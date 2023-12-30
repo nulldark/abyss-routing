@@ -33,21 +33,21 @@ class Route
      *
      * @var string[] $methods
      */
-    public array $methods = [];
+    protected array $methods = [];
 
     /**
      * The path for this route.
      *
      * @var string $path
      */
-    public string $path;
+    protected string $path;
 
     /**
      * The route handler.
      *
      * @var \Closure|string|array<class-string, string> $callback
      */
-    public \Closure|string|array $callback;
+    protected \Closure|string|array $callback;
 
     /**
      * The compiled version of the route.
@@ -80,6 +80,8 @@ class Route
         $this->setPath($path);
         $this->setMethods($methods);
         $this->setCallback($callback);
+
+        $this->compiled = null;
     }
 
     /**

@@ -32,10 +32,6 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(PathMatcher::class)]
 class PathMatcherTest extends TestCase
 {
-    /**
-     * @covers \Abyss\Routing\Matcher\Matcher::match
-     * @return void
-     */
     public function testCheckGivenPathIsMatch(): void
     {
         $router = new Router();

@@ -40,9 +40,9 @@ class RouteCompilerTest extends TestCase
 
         $compiled = $route->compiled();
 
-        $this->assertEquals($regex, $compiled->getRegex());
-        $this->assertEquals($variables, $compiled->getVariables());
-        $this->assertEquals($tokens, $compiled->getTokens());
+        self::assertEquals($regex, $compiled->getRegex());
+        self::assertEquals($variables, $compiled->getVariables());
+        self::assertEquals($tokens, $compiled->getTokens());
     }
 
     public static function dataCompiledData(): iterable
@@ -81,10 +81,7 @@ class RouteCompilerTest extends TestCase
     }
 
     /**
-     * @covers \Abyss\Routing\RouteCompiler::compile
      * @dataProvider dataVariableNamesStartingWithDigit
-     * @param string $name
-     * @return void
      */
     public function testRouteWithVariableStartedWithADigit(string $name): void
     {
@@ -102,10 +99,6 @@ class RouteCompilerTest extends TestCase
         ];
     }
 
-    /**
-     * @covers \Abyss\Routing\RouteCompiler::compile
-     * @return void
-     */
     public function testRouteWithTooLongVariableName(): void
     {
         $this->expectException(\DomainException::class);
