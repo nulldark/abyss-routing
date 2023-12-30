@@ -1,9 +1,29 @@
-name: CI
+name: "Continuous Integration"
+
 on:
-  push:
-    branches: [ "master" ]
   pull_request:
-    branches: [ "master" ]
+    branches:
+      - "*.x"
+    paths:
+      - .github/workflows/continuous-integration.yml
+      - ci/**
+      - composer.*
+      - lib/**
+      - phpunit.xml.dist
+      - tests/**
+  push:
+    branches:
+      - "*.x"
+    paths:
+      - .github/workflows/continuous-integration.yml
+      - ci/**
+      - composer.*
+      - lib/**
+      - phpunit.xml.dist
+      - tests/**
+
+env:
+  fail-fast: true
 
 permissions:
   contents: read
@@ -35,8 +55,10 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-source --no-interaction --dev
       - name: Coding Standard
-        run: composer run phpcs
-      - name: Static Code Analysis
-        run: composer run phpstan
+        run: composer run lint:style
+      - name: Static Code Analysis (PHPStan)
+        run: composer run analyze:phpstan
+      - name: Static Code Analysis (Psalm)
+        run: composer run analyze:psalm
       - name: Run test suite
-        run: composer run phpunit
+        run: composer run unit:tests
