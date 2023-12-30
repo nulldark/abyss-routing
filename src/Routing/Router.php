@@ -141,7 +141,7 @@ class Router implements RouterInterface
     public function addRoute(array $methods, string $path, \Closure|string $callback): Route
     {
         return $this->routes->add(
-            new Route($methods, $path, $callback)
+            new Route($methods, $path, $callback),
         );
     }
 }

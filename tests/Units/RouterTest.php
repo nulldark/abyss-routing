@@ -38,7 +38,7 @@ class RouterTest extends TestCase
 
         $this->assertInstanceOf(
             RouteCollectionInterface::class,
-            $router->getRouteCollection()
+            $router->getRouteCollection(),
         );
     }
 
@@ -51,7 +51,7 @@ class RouterTest extends TestCase
 
         $this->assertInstanceOf(
             Route::class,
-            $route
+            $route,
         );
     }
 }

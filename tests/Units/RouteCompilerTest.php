@@ -49,14 +49,22 @@ class RouteCompilerTest extends TestCase
     {
         return [
             [
-                [[], '/bar', fn() => 'test'], '#^\/bar$#sD', [], [['text', '/bar']]
+                [[], '/bar', fn() => 'test'],
+                '#^\/bar$#sD', [],
+                [['text', '/bar']],
             ],
             [
-                [[], '/bar/{foo}', fn() => 'test'], '#^\/bar\/(?P<foo>[^\/]+)$#sD', ['foo'], [['text', '/bar/'], ['variable', '[^\/]+', 'foo']]
+                [[], '/bar/{foo}', fn() => 'test'],
+                '#^\/bar\/(?P<foo>[^\/]+)$#sD',
+                ['foo'],
+                [['text', '/bar/'], ['variable', '[^\/]+', 'foo']],
             ],
             [
-                [[], '', fn() => 'test'], '#^\/$#sD', [], [['text', '/']]
-            ]
+                [[], '', fn() => 'test'],
+                '#^\/$#sD',
+                [],
+                [['text', '/']],
+            ],
         ];
     }
 
@@ -104,7 +112,7 @@ class RouteCompilerTest extends TestCase
         $route = new Route(
             [],
             sprintf('/{%s}', str_repeat('b', RouteCompiler::VARIABLE_MAXIMUM_LENGTH + 1)),
-            fn () => 'foo'
+            fn () => 'foo',
         );
         $route->compiled();
     }

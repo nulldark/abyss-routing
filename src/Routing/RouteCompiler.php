@@ -45,12 +45,18 @@ final class RouteCompiler
         preg_match_all('#\{(!)?([\w\x80-\xFF]+)}#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
         foreach ($matches as $match) {
             $varName = $match[2][0];
-            if (preg_match('/^\d/', $varName)) {
-                throw new \DomainException("Variable name '$varName' cannot start with a digit in route pattern '$pattern'.");
+            if (preg_match('/^\d/', $varName) === false) {
+                $reason = \sprintf(
+                    "Variable name '%s' cannot start with a digit in route pattern '%s'.",
+                    $varName,
+                    $pattern,
+                );
+
+                throw new \DomainException($reason);
             }
-            if (in_array($varName, $variables)) {
+            if (in_array($varName, $variables, true)) {
                 throw new \LogicException(
-                    sprintf('Variable "%s" is already defined in route pattern "%s".', $varName, $pattern)
+                    sprintf('Variable "%s" is already defined in route pattern "%s".', $varName, $pattern),
                 );
             }
 
@@ -61,8 +67,8 @@ final class RouteCompiler
                             Please use a shorter name.',
                         $varName,
                         self::VARIABLE_MAXIMUM_LENGTH,
-                        $pattern
-                    )
+                        $pattern,
+                    ),
                 );
             }
 
@@ -78,7 +84,7 @@ final class RouteCompiler
             $regexp = sprintf(
                 '[^%s%s]+',
                 preg_quote('/', '/'),
-                ''
+                '',
             );
 
             $tokens[] = ['variable', $regexp, $varName];
@@ -103,7 +109,7 @@ final class RouteCompiler
         return new CompiledRoute(
             $regexp,
             $variables,
-            $tokens
+            $tokens,
         );
     }
 

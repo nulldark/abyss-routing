@@ -22,11 +22,11 @@
 
 namespace Abyss\Routing;
 
+use Abyss\Routing\Exception\MethodNotAllowedException;
+use Abyss\Routing\Exception\RouteNotFoundException;
 use Abyss\Routing\Matcher\MatcherInterface;
 use Abyss\Routing\Matcher\MethodMatcher;
 use Abyss\Routing\Matcher\PathMatcher;
-use Abyss\Routing\Exception\MethodNotAllowedException;
-use Abyss\Routing\Exception\RouteNotFoundException;
 use Psr\Http\Message\ServerRequestInterface;
 use Traversable;
 
@@ -109,13 +109,13 @@ class RouteCollection implements RouteCollectionInterface
                 'The %s method is not supported for route %s. Supported methods: %s.',
                 $request->getMethod(),
                 $request->getUri()->getPath(),
-                \implode(', ', \array_unique($this->allow))
+                \implode(', ', \array_unique($this->allow)),
             ));
         }
 
         throw new RouteNotFoundException(sprintf(
             'The route %s could not be found.',
-            $request->getUri()->getPath()
+            $request->getUri()->getPath(),
         ));
     }
 
