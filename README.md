@@ -1,3 +1,5 @@
+# This repo has moved here [abyssphp/routing](https://github.com/abyssphp/routing).
+
 # abyss/routing
 
 Routing library inspired by express.js
