@@ -38,7 +38,7 @@ final class ServerRequestMock
             [],
             [],
             $uri,
-            $method
+            $method,
         );
     }
 }

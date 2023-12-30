@@ -40,23 +40,31 @@ class RouteCompilerTest extends TestCase
 
         $compiled = $route->compiled();
 
-        $this->assertEquals($regex, $compiled->getRegex());
-        $this->assertEquals($variables, $compiled->getVariables());
-        $this->assertEquals($tokens, $compiled->getTokens());
+        self::assertEquals($regex, $compiled->getRegex());
+        self::assertEquals($variables, $compiled->getVariables());
+        self::assertEquals($tokens, $compiled->getTokens());
     }
 
     public static function dataCompiledData(): iterable
     {
         return [
             [
-                [[], '/bar', fn() => 'test'], '#^\/bar$#sD', [], [['text', '/bar']]
+                [[], '/bar', fn() => 'test'],
+                '#^\/bar$#sD', [],
+                [['text', '/bar']],
             ],
             [
-                [[], '/bar/{foo}', fn() => 'test'], '#^\/bar\/(?P<foo>[^\/]+)$#sD', ['foo'], [['text', '/bar/'], ['variable', '[^\/]+', 'foo']]
+                [[], '/bar/{foo}', fn() => 'test'],
+                '#^\/bar\/(?P<foo>[^\/]+)$#sD',
+                ['foo'],
+                [['text', '/bar/'], ['variable', '[^\/]+', 'foo']],
             ],
             [
-                [[], '', fn() => 'test'], '#^\/$#sD', [], [['text', '/']]
-            ]
+                [[], '', fn() => 'test'],
+                '#^\/$#sD',
+                [],
+                [['text', '/']],
+            ],
         ];
     }
 
@@ -73,10 +81,7 @@ class RouteCompilerTest extends TestCase
     }
 
     /**
-     * @covers \Abyss\Routing\RouteCompiler::compile
      * @dataProvider dataVariableNamesStartingWithDigit
-     * @param string $name
-     * @return void
      */
     public function testRouteWithVariableStartedWithADigit(string $name): void
     {
@@ -94,17 +99,13 @@ class RouteCompilerTest extends TestCase
         ];
     }
 
-    /**
-     * @covers \Abyss\Routing\RouteCompiler::compile
-     * @return void
-     */
     public function testRouteWithTooLongVariableName(): void
     {
         $this->expectException(\DomainException::class);
         $route = new Route(
             [],
             sprintf('/{%s}', str_repeat('b', RouteCompiler::VARIABLE_MAXIMUM_LENGTH + 1)),
-            fn () => 'foo'
+            fn () => 'foo',
         );
         $route->compiled();
     }

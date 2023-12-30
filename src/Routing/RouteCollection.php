@@ -22,11 +22,11 @@
 
 namespace Abyss\Routing;
 
+use Abyss\Routing\Exception\MethodNotAllowedException;
+use Abyss\Routing\Exception\RouteNotFoundException;
 use Abyss\Routing\Matcher\MatcherInterface;
 use Abyss\Routing\Matcher\MethodMatcher;
 use Abyss\Routing\Matcher\PathMatcher;
-use Abyss\Routing\Exception\MethodNotAllowedException;
-use Abyss\Routing\Exception\RouteNotFoundException;
 use Psr\Http\Message\ServerRequestInterface;
 use Traversable;
 
@@ -37,14 +37,14 @@ use Traversable;
 class RouteCollection implements RouteCollectionInterface
 {
     /** @var string[] $allow */
-    private array $allow;
+    protected array $allow = [];
 
     /**
      * The collection of routes.
      *
      * @var array<string, Route> $routes
      */
-    private array $routes = [];
+    protected array $routes = [];
 
     /**
      * @inheritDoc
@@ -72,7 +72,7 @@ class RouteCollection implements RouteCollectionInterface
         }
 
         $routes = \array_map(function (Route $route) use ($method) {
-            if (\in_array($method, $route->methods())) {
+            if (\in_array($method, $route->methods(), true)) {
                 return $route;
             }
 
@@ -100,23 +100,30 @@ class RouteCollection implements RouteCollectionInterface
     {
         $this->allow = [];
 
-        if ($route = $this->matchCollection($request)) {
+        if (($route = $this->matchCollection($request)) !== null) {
             return $route;
         }
 
+        $this->allow = \array_unique($this->allow);
+
         if (\count($this->allow) > 0) {
-            throw new MethodNotAllowedException(sprintf(
+            /** @psalm-suppress NoValue */
+            $reason = \sprintf(
                 'The %s method is not supported for route %s. Supported methods: %s.',
                 $request->getMethod(),
                 $request->getUri()->getPath(),
-                \implode(', ', \array_unique($this->allow))
-            ));
+                \implode(',', \array_map('strtoupper', $this->allow)),
+            );
+
+            throw new MethodNotAllowedException($reason);
         }
 
-        throw new RouteNotFoundException(sprintf(
-            'The route %s could not be found.',
-            $request->getUri()->getPath()
-        ));
+        throw new RouteNotFoundException(
+            \sprintf(
+                'The route %s could not be found.',
+                $request->getUri()->getPath(),
+            ),
+        );
     }
 
     /**

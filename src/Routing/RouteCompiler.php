@@ -42,43 +42,50 @@ final class RouteCompiler
         $variables = [];
         $pos = 0;
 
-        preg_match_all('#\{(!)?([\w\x80-\xFF]+)}#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+        \preg_match_all('#\{(!)?([\w\x80-\xFF]+)}#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+
         foreach ($matches as $match) {
             $varName = $match[2][0];
-            if (preg_match('/^\d/', $varName)) {
-                throw new \DomainException("Variable name '$varName' cannot start with a digit in route pattern '$pattern'.");
+            if (\preg_match('/^\d/', $varName) > 0) {
+                $reason = \sprintf(
+                    "Variable name '%s' cannot start with a digit in route pattern '%s'.",
+                    $varName,
+                    $pattern,
+                );
+
+                throw new \DomainException($reason);
             }
-            if (in_array($varName, $variables)) {
+            if (\in_array($varName, $variables, true)) {
                 throw new \LogicException(
-                    sprintf('Variable "%s" is already defined in route pattern "%s".', $varName, $pattern)
+                    \sprintf('Variable "%s" is already defined in route pattern "%s".', $varName, $pattern),
                 );
             }
 
-            if (strlen($varName) > self::VARIABLE_MAXIMUM_LENGTH) {
+            if (\strlen($varName) > self::VARIABLE_MAXIMUM_LENGTH) {
                 throw new \DomainException(
-                    sprintf(
+                    \sprintf(
                         'Variable name "%s" cannot be longer than %d characters in route pattern "%s".
                             Please use a shorter name.',
                         $varName,
                         self::VARIABLE_MAXIMUM_LENGTH,
-                        $pattern
-                    )
+                        $pattern,
+                    ),
                 );
             }
 
-            $precedingText = substr($pattern, $pos, $match[0][1] - $pos);
-            $precedingChar = !strlen($precedingText) ? '' : substr($precedingText, -1);
+            $precedingText = \substr($pattern, $pos, $match[0][1] - $pos);
+            $precedingChar = \strlen($precedingText) === 0 ? '' : substr($precedingText, -1);
 
-            $pos = $match[0][1] + strlen($match[0][0]);
+            $pos = $match[0][1] + \strlen($match[0][0]);
 
             if ('' !== $precedingChar) {
                 $tokens[] = ['text', $precedingText];
             }
 
-            $regexp = sprintf(
+            $regexp = \sprintf(
                 '[^%s%s]+',
-                preg_quote('/', '/'),
-                ''
+                \preg_quote('/', '/'),
+                '',
             );
 
             $tokens[] = ['variable', $regexp, $varName];
@@ -86,11 +93,11 @@ final class RouteCompiler
         }
 
         if ($pos < \strlen($pattern)) {
-            $tokens[] = ['text', substr($pattern, $pos)];
+            $tokens[] = ['text', \substr($pattern, $pos)];
         }
 
         $regexp = '';
-        for ($i = 0, $nbToken = count($tokens); $i < $nbToken; $i++) {
+        for ($i = 0, $nbToken = \count($tokens); $i < $nbToken; $i++) {
             $regexp .= self::computeRegex($tokens, $i);
         }
 
@@ -103,7 +110,7 @@ final class RouteCompiler
         return new CompiledRoute(
             $regexp,
             $variables,
-            $tokens
+            $tokens,
         );
     }
 
@@ -118,12 +125,12 @@ final class RouteCompiler
 
         if ('variable' === $token[0]) {
             if (0 === $index) {
-                return sprintf('(?P<%s>%s)?', $token[3], $token[2]);
+                return \sprintf('(?P<%s>%s)?', $token[3], $token[2]);
             }
 
-            return sprintf('(?P<%s>%s)', $token[2], $token[1]);
+            return \sprintf('(?P<%s>%s)', $token[2], $token[1]);
         }
 
-        return preg_quote($token[1], '/');
+        return \preg_quote($token[1], '/');
     }
 }

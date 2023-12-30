@@ -49,10 +49,10 @@ class Router implements RouterInterface
     {
         $route =  $this->routes->match($request);
 
-        preg_match($route->compiled()->getRegex(), $request->getUri()->getPath(), $matches);
+        \preg_match($route->compiled()->getRegex(), $request->getUri()->getPath(), $matches);
 
         foreach ($matches as $key => $value) {
-            if (is_numeric($key) || $value === null) {
+            if (\is_numeric($key)) {
                 continue;
             }
 
@@ -141,7 +141,7 @@ class Router implements RouterInterface
     public function addRoute(array $methods, string $path, \Closure|string $callback): Route
     {
         return $this->routes->add(
-            new Route($methods, $path, $callback)
+            new Route($methods, $path, $callback),
         );
     }
 }

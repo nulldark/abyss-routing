@@ -36,6 +36,6 @@ class MethodMatcher implements MatcherInterface
      */
     public function match(Route $route, ServerRequestInterface $request): bool
     {
-        return \in_array($request->getMethod(), $route->methods());
+        return \in_array($request->getMethod(), $route->methods(), true);
     }
 }

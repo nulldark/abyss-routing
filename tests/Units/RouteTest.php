@@ -30,20 +30,15 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Route::class)]
 class RouteTest extends TestCase
 {
-    /**
-     * @covers \Abyss\Routing\Route::setPath
-     * @covers \Abyss\Routing\Route::getPath
-     * @return void
-     */
     public function testPath(): void
     {
         $route = new RouteStub();
 
         $route->setPath('');
-        $this->assertEquals('/', $route->path());
+        self::assertEquals('/', $route->path());
 
         $route->setPath('//bar');
-        $this->assertEquals('/bar', $route->path());
+        self::assertEquals('/bar', $route->path());
     }
 
     public function testMethods(): void
@@ -51,9 +46,9 @@ class RouteTest extends TestCase
         $route = new RouteStub();
 
         $route->setMethods(['GET']);
-        $this->assertEquals(['GET'], $route->methods());
+        self::assertEquals(['GET'], $route->methods());
 
         $route->setMethods(['POST', 'PUT']);
-        $this->assertEquals(['POST', 'PUT'], $route->methods());
+        self::assertEquals(['POST', 'PUT'], $route->methods());
     }
 }

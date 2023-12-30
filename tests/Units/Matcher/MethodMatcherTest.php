@@ -27,8 +27,10 @@ use Abyss\Routing\Matcher\PathMatcher;
 use Abyss\Routing\Route;
 use Abyss\Routing\Router;
 use Abyss\Tests\Mock\ServerRequestMock;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(MethodMatcher::class)]
 class MethodMatcherTest extends TestCase
 {
     public function testCheckGivenRequestMethodIsMatch(): void

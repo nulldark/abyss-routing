@@ -36,10 +36,7 @@ class RouterTest extends TestCase
     {
         $router = new Router();
 
-        $this->assertInstanceOf(
-            RouteCollectionInterface::class,
-            $router->getRouteCollection()
-        );
+        self::assertCount(0, $router->getRouteCollection());
     }
 
     public function testMatch(): void
@@ -49,9 +46,7 @@ class RouterTest extends TestCase
 
         $route = $router->match(ServerRequestMock::create());
 
-        $this->assertInstanceOf(
-            Route::class,
-            $route
-        );
+        self::assertSame('/', $route->path());
+        self::assertSame(['GET'], $route->methods());
     }
 }
